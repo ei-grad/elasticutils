@@ -44,7 +44,7 @@ def index_objects(mapping_type, ids, chunk_size=100, es=None, index=None):
         return
 
     log.debug('Indexing objects {0}-{1}. [{2}]'.format(
-            ids[0], ids[-1], len(ids)))
+              ids[0], ids[-1], len(ids)))
 
     # Get the model this mapping type is based on.
     model = mapping_type.get_model()
@@ -59,7 +59,7 @@ def index_objects(mapping_type, ids, chunk_size=100, es=None, index=None):
                 documents.append(mapping_type.extract_document(obj.id, obj))
             except StandardError as exc:
                 log.exception('Unable to extract document {0}: {1}'.format(
-                        obj, repr(exc)))
+                              obj, repr(exc)))
 
         if documents:
             mapping_type.bulk_index(documents, id_field='id', es=es, index=index)
