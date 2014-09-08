@@ -307,4 +307,4 @@ class Indexable(BaseIndexable):
 
         """
         model = cls.get_model()
-        return model.objects.order_by('id').values_list('id', flat=True)
+        return model.objects.order_by('pk').values_list('pk', flat=True)
