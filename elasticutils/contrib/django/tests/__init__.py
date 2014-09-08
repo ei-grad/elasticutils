@@ -13,9 +13,15 @@ def reset_model_cache():
     del _model_cache[0:]
 
 
+class FakePK():
+    name = 'id'
+
+
 class Meta(object):
     def __init__(self, db_table):
         self.db_table = db_table
+
+    pk = FakePK()
 
 
 class SearchQuerySet(object):
@@ -28,8 +34,8 @@ class SearchQuerySet(object):
         pk = int(pk)
         return [m for m in _model_cache if m.id == pk][0]
 
-    def filter(self, id__in=None):
-        self.steps.append(('filter', id__in))
+    def filter(self, pk__in=None):
+        self.steps.append(('filter', pk__in))
         return self
 
     def order_by(self, *fields):
@@ -88,6 +94,10 @@ class FakeModel(object):
         for key in kw:
             setattr(self, key, kw[key])
         _model_cache.append(self)
+
+    @property
+    def pk(self):
+        return self.id
 
 
 class FakeDjangoMappingType(MappingType, Indexable):
